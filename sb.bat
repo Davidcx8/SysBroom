@@ -1,0 +1,93 @@
+@echo off
+SETLOCAL EnableDelayedExpansion
+chcp 65001 > nul 2>&1
+SET "SCRIPT=%~dp0sysbroom.py"
+
+REM ?? Enrutar comandos ??????????????????????????????????????????????????????????
+IF "%~1"==""          ( python "%SCRIPT%"                         & GOTO :END )
+IF /I "%~1"=="help"   GOTO :HELP
+IF /I "%~1"=="h"      GOTO :HELP
+IF /I "%~1"=="?"      GOTO :HELP
+
+REM ? Escaneo ???????????????????????????????????????????????????????????????????
+IF /I "%~1"=="scan"     ( python "%SCRIPT%" --scan-only           & GOTO :END )
+IF /I "%~1"=="check"    ( python "%SCRIPT%" --scan-only           & GOTO :END )
+
+REM ? Limpieza ??????????????????????????????????????????????????????????????????
+IF /I "%~1"=="clean"    ( python "%SCRIPT%" --auto                & GOTO :END )
+IF /I "%~1"=="auto"     ( python "%SCRIPT%" --auto                & GOTO :END )
+
+REM ? Simulacion ????????????????????????????????????????????????????????????????
+IF /I "%~1"=="dry"      ( python "%SCRIPT%" --dry-run             & GOTO :END )
+IF /I "%~1"=="dryrun"   ( python "%SCRIPT%" --dry-run             & GOTO :END )
+IF /I "%~1"=="simulate" ( python "%SCRIPT%" --dry-run             & GOTO :END )
+
+REM ? Modulos dedicados ?????????????????????????????????????????????????????????
+IF /I "%~1"=="docker"   ( python "%SCRIPT%" --docker              & GOTO :END )
+IF /I "%~1"=="dk"       ( python "%SCRIPT%" --docker              & GOTO :END )
+
+IF /I "%~1"=="wsl"      ( python "%SCRIPT%" --wsl                 & GOTO :END )
+
+IF /I "%~1"=="ai"       ( python "%SCRIPT%" --ai                  & GOTO :END )
+IF /I "%~1"=="ia"       ( python "%SCRIPT%" --ai                  & GOTO :END )
+
+IF /I "%~1"=="apps"     ( python "%SCRIPT%" --apps                & GOTO :END )
+IF /I "%~1"=="app"      ( python "%SCRIPT%" --apps                & GOTO :END )
+
+IF /I "%~1"=="proc"     ( python "%SCRIPT%" --processes           & GOTO :END )
+IF /I "%~1"=="ports"    ( python "%SCRIPT%" --processes           & GOTO :END )
+IF /I "%~1"=="kill"     ( python "%SCRIPT%" --processes           & GOTO :END )
+
+REM ? Programacion ??????????????????????????????????????????????????????????????
+IF /I "%~1"=="sched"    ( python "%SCRIPT%" --schedule            & GOTO :END )
+IF /I "%~1"=="schedule" ( python "%SCRIPT%" --schedule            & GOTO :END )
+
+IF /I "%~1"=="status"   ( python "%SCRIPT%" --status              & GOTO :END )
+IF /I "%~1"=="st"       ( python "%SCRIPT%" --status              & GOTO :END )
+
+IF /I "%~1"=="unsched"  ( python "%SCRIPT%" --unschedule          & GOTO :END )
+
+REM ? Historial y reportes ??????????????????????????????????????????????????????
+IF /I "%~1"=="history"  ( python "%SCRIPT%" --history             & GOTO :END )
+IF /I "%~1"=="log"      ( python "%SCRIPT%" --history             & GOTO :END )
+
+IF /I "%~1"=="report"   ( python "%SCRIPT%" --report              & GOTO :END )
+IF /I "%~1"=="last"     ( python "%SCRIPT%" --report              & GOTO :END )
+
+IF /I "%~1"=="version"  ( python "%SCRIPT%" --version             & GOTO :END )
+
+echo [SysBroom] Comando no reconocido: "%~1"  -^>  escribe  sb help
+GOTO :END
+
+:HELP
+echo.
+echo  +======================================================================+
+echo  ^|  SysBroom v3.0 -- Suite de Limpieza Inteligente                     ^|
+echo  +======================================================================+
+echo  ^|  ESCANEO Y LIMPIEZA                                                  ^|
+echo  ^|   sb              Asistente interactivo por fases                    ^|
+echo  ^|   sb scan         Diagnostico completo (solo lectura)                ^|
+echo  ^|   sb clean        Limpieza automatica segun perfil                   ^|
+echo  ^|   sb dry          Simular sin borrar nada (dry-run)                  ^|
+echo  +----------------------------------------------------------------------+
+echo  ^|  MODULOS DEDICADOS                                                   ^|
+echo  ^|   sb ai           IA: Claude, Cursor, Ollama, HuggingFace, AGY...    ^|
+echo  ^|   sb apps         Apps: residuos, extensiones, venvs, node_modules   ^|
+echo  ^|   sb docker       Docker: imagenes, contenedores, volumenes, redes   ^|
+echo  ^|   sb wsl          WSL: por distro y componente, compactacion VHDX    ^|
+echo  ^|   sb proc         Procesos: zombies, CPU, RAM, puertos               ^|
+echo  +----------------------------------------------------------------------+
+echo  ^|  PROGRAMACION AUTOMATICA                                             ^|
+echo  ^|   sb sched        Configurar dia, hora y categorias                  ^|
+echo  ^|   sb status       Estado y proxima ejecucion                         ^|
+echo  ^|   sb unsched      Eliminar tarea de Windows                          ^|
+echo  +----------------------------------------------------------------------+
+echo  ^|  HISTORIAL Y REPORTES                                                ^|
+echo  ^|   sb history      Ultimas 10 limpiezas                               ^|
+echo  ^|   sb report       Ver el ultimo reporte                              ^|
+echo  ^|   sb help         Este menu                                          ^|
+echo  +======================================================================+
+echo.
+
+:END
+ENDLOCAL

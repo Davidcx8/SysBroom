@@ -1,0 +1,23 @@
+{
+  "schedule": {
+    "type": "Daily",
+    "day": "Daily",
+    "day_name": "Todos los días",
+    "time": "03:30"
+  },
+  "profile": {
+    "windows_temp": true,
+    "system_temp": true,
+    "prefetch": true,
+    "recycle_bin": true,
+    "windows_update": true,
+    "app_cache": true,
+    "dns_cache": true,
+    "docker_dangling": true,
+    "wsl_clean": true,
+    "kill_zombies": true,
+    "ai_tools": true,
+    "ai_models": false,
+    "app_residues": false
+  }
+}
