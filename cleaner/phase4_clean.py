@@ -192,8 +192,10 @@ def _clean_wsl():
     if _should_skip():
         return 0, []
     try:
-        subprocess.run(["wsl.exe", "rm", "-rf", "/tmp/*"],
-                       capture_output=True, text=True, timeout=30)
+        subprocess.run(
+            ["wsl.exe", "-e", "bash", "-c", "rm -rf /tmp/* 2>/dev/null || true"],
+            capture_output=True, text=True, timeout=30
+        )
         return 0, []
     except Exception as e:
         return 0, [str(e)]
