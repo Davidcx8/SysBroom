@@ -100,7 +100,7 @@ def show_decision_menu(analysis: Dict[str, Any], auto_mode: bool = False) -> Lis
         )
 
         try:
-            raw = input("  Opción: ").strip().upper()
+            raw = console.input("  Opción: ").strip().upper()
         except (EOFError, KeyboardInterrupt):
             raise SystemExit(0)
 
@@ -108,7 +108,7 @@ def show_decision_menu(analysis: Dict[str, Any], auto_mode: bool = False) -> Lis
         if raw == "":
             if not any(c.get("enabled") for c in cats):
                 console.print("[red]Selecciona al menos una categoría.[/]")
-                input("  ENTER para continuar...")
+                console.input("  ENTER para continuar...")
                 continue
             break
 
@@ -156,7 +156,7 @@ def show_decision_menu(analysis: Dict[str, Any], auto_mode: bool = False) -> Lis
             idx = int(raw[1:]) - 1
             if 0 <= idx < len(visible):
                 _show_category_detail(visible[idx], console)
-                input("\n  ENTER para volver...")
+                console.input("\n  ENTER para volver...")
 
         elif raw.isdigit() and 1 <= int(raw) <= len(visible):
             idx = int(raw) - 1
@@ -165,7 +165,7 @@ def show_decision_menu(analysis: Dict[str, Any], auto_mode: bool = False) -> Lis
                 console.print(
                     f"\n[bold yellow]⚠ '{c['name']}' requiere confirmación individual por elemento.[/]"
                 )
-                if input("  ¿Activar de todas formas? (s/N): ").strip().lower() == "s":
+                if console.input("  ¿Activar de todas formas? (s/N): ").strip().lower() == "s":
                     c["enabled"] = True
             else:
                 c["enabled"] = not c.get("enabled", False)
@@ -247,7 +247,7 @@ def confirm_old_projects(repos, console):
         console.print(f"  [cyan]{nm}[/] [dim]({sz} · último commit {lc} · {mo:.0f} meses)[/]")
         console.print(f"  [dim]{repo.get('path', '')}[/]")
         try:
-            if input("  ¿Eliminar? (s/N): ").strip().lower() == "s":
+            if console.input("  ¿Eliminar? (s/N): ").strip().lower() == "s":
                 selected.append(repo)
                 console.print("  [bold red]→ Marcado para eliminar[/]")
             else:

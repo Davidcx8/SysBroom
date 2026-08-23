@@ -168,7 +168,7 @@ def interactive_process_cleanup(data,console) -> Dict:
     killable=data["zombie"]+data["orphan"]+data["idle_heavy"]
     if killable:
         console.print(Panel("[bold yellow]Terminar Procesos Problemáticos[/]\nIngresa PIDs separados por coma o ENTER para omitir.",border_style="yellow"))
-        try: raw=input("  PIDs a terminar: ").strip()
+        try: raw=console.input("  PIDs a terminar: ").strip()
         except: return report
         if raw:
             for pid in [int(x) for x in raw.split(",") if x.strip().isdigit()]:
@@ -177,7 +177,7 @@ def interactive_process_cleanup(data,console) -> Dict:
                 else:
                     console.print(f"  ⚠️  {msg}")
                     try:
-                        if input(f"  ¿Forzar cierre de PID {pid}? (s/N): ").strip().lower()=="s":
+                        if console.input(f"  ¿Forzar cierre de PID {pid}? (s/N): ").strip().lower()=="s":
                             ok2,msg2=kill_process(pid,force=True)
                             if ok2: report["killed"].append(pid); console.print(f"  ✅ {msg2}")
                             else: report["errors"].append(msg2)
@@ -185,7 +185,7 @@ def interactive_process_cleanup(data,console) -> Dict:
 
     if data["blocked_ports"]:
         console.print(Panel("[bold magenta]Liberar Puertos de Desarrollo[/]\nIngresa puertos separados por coma o ENTER para omitir.",border_style="magenta"))
-        try: raw=input("  Puertos a liberar: ").strip()
+        try: raw=console.input("  Puertos a liberar: ").strip()
         except: return report
         if raw:
             for port in [int(x) for x in raw.split(",") if x.strip().isdigit()]:

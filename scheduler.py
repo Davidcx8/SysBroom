@@ -84,7 +84,7 @@ def interactive_schedule_wizard(console: Console):
         console.print(f"  [{i}] {es}")
     console.print("  [8] Todos los días (Diario)")
 
-    day_choice = input("\n  Opción (1-8, Enter=Domingo): ").strip()
+    day_choice = console.input("\n  Opción (1-8, Enter=Domingo): ").strip()
     if day_choice == "8":
         schedule_type, day_val, day_str = "Daily", "Daily", "Todos los días"
     else:
@@ -93,7 +93,7 @@ def interactive_schedule_wizard(console: Console):
 
     console.print("\n[bold cyan]2. Hora de ejecución (formato 24h, ej: 03:00, 14:30):[/bold cyan]")
     while True:
-        time_val = input("  Hora (Enter=10:00): ").strip()
+        time_val = console.input("  Hora (Enter=10:00): ").strip()
         if not time_val:
             time_val = "10:00"
             break
@@ -106,7 +106,7 @@ def interactive_schedule_wizard(console: Console):
 
     for key, label in PROFILE_LABELS.items():
         actual = "✅ SÍ" if prof.get(key, DEFAULT_PROFILE.get(key, False)) else "⬜ NO"
-        cambiar = input(f"  ¿Incluir {label}? [{actual}] (Enter=mantener / n=No / s=Sí): ").strip().lower()
+        cambiar = console.input(f"  ¿Incluir {label}? [{actual}] (Enter=mantener / n=No / s=Sí): ").strip().lower()
         if cambiar == "n":
             prof[key] = False
         elif cambiar == "s":

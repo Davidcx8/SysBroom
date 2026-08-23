@@ -199,7 +199,7 @@ def interactive_docker_cleanup(data: Dict[str, Any], console: Console):
     if vols: console.print(f"  [3] Eliminar {len(vols)} volúmenes huérfanos")
     console.print("  [A] Todo  |  ENTER=omitir")
 
-    try: raw = input("  Elige: ").strip().upper()
+    try: raw = console.input("  Elige: ").strip().upper()
     except: return
     if raw == "A" or "1" in raw:
         for i in imgs: _run(["docker", "rmi", "-f", i["id"]])

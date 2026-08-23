@@ -129,7 +129,7 @@ def clean_and_compact_wsl(data: Dict[str, Any], console: Console):
         console.print(f"  ✅ Archivos temporales y paquetes liberados en [bold]{dname}[/].")
 
     console.print("\n[bold cyan]2. Compactación de Discos Virtuales VHDX:[/bold cyan]")
-    try: ans = input("  ¿Deseas apagar WSL y compactar las distros ahora? (s/N): ").strip().lower()
+    try: ans = console.input("  ¿Deseas apagar WSL y compactar las distros ahora? (s/N): ").strip().lower()
     except: return
 
     if ans == "s":

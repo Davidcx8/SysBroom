@@ -779,11 +779,11 @@ def interactive_ai_cleanup(data: Dict[str, Any], console, dry_run: bool = False)
             f"[dim]Estas cachés y logs se regeneran automáticamente.[/]",
             border_style="red"
         ))
-        ans = input("  ¿Eliminar toda la basura segura de IA? (s/N/ver): ").strip().lower()
+        ans = console.input("  ¿Eliminar toda la basura segura de IA? (s/N/ver): ").strip().lower()
         if ans == "ver":
             for i, item in enumerate(junk, 1):
                 console.print(f"  [{i}] {item['tool']} — {item['label']} ({format_size(item['size_bytes'])})")
-            idxs = input("  Números a borrar (ej: 1,3,5 o ENTER=todos s/N): ").strip()
+            idxs = console.input("  Números a borrar (ej: 1,3,5 o ENTER=todos s/N): ").strip()
             if idxs:
                 try:
                     selected_junk = [junk[int(x)-1] for x in idxs.split(",") if x.strip().isdigit()]
@@ -791,7 +791,7 @@ def interactive_ai_cleanup(data: Dict[str, Any], console, dry_run: bool = False)
                     selected_junk = []
             else:
                 selected_junk = []
-            ans2 = input("  ¿Confirmar selección? (s/N): ").strip().lower()
+            ans2 = console.input("  ¿Confirmar selección? (s/N): ").strip().lower()
             if ans2 == "s":
                 ans = "s"
                 junk = selected_junk
@@ -844,7 +844,7 @@ def interactive_ai_cleanup(data: Dict[str, Any], console, dry_run: bool = False)
                 if len(models) > 5:
                     console.print(f"    [dim]... y {len(models)-5} más[/]")
 
-            ans = input(f"  ¿Eliminar? (s/N): ").strip().lower()
+            ans = console.input(f"  ¿Eliminar? (s/N): ").strip().lower()
             if ans == "s":
                 p = Path(item["path"])
                 try:

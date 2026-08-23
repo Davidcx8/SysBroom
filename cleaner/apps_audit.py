@@ -599,7 +599,7 @@ def interactive_apps_cleanup(data: Dict[str, Any], console, dry_run: bool = Fals
             f"[dim]npm, pip, Yarn, Cargo, Gradle, etc. Se regeneran automáticamente.[/]",
             border_style="cyan"
         ))
-        ans = input("  ¿Limpiar todas las cachés de desarrollo? (s/N): ").strip().lower()
+        ans = console.input("  ¿Limpiar todas las cachés de desarrollo? (s/N): ").strip().lower()
         if ans == "s":
             for c in junk_caches:
                 p = Path(c["path"])
@@ -622,7 +622,7 @@ def interactive_apps_cleanup(data: Dict[str, Any], console, dry_run: bool = Fals
         for v in venvs:
             console.print(f"  · {v['name']} ({v['age_str']}) — [bold]{format_size(v['size_bytes'])}[/]")
             console.print(f"    [dim]{v['path']}[/]")
-            ans = input("    ¿Eliminar? (s/N): ").strip().lower()
+            ans = console.input("    ¿Eliminar? (s/N): ").strip().lower()
             if ans == "s":
                 try:
                     if not dry_run:
@@ -644,7 +644,7 @@ def interactive_apps_cleanup(data: Dict[str, Any], console, dry_run: bool = Fals
         console.print(f"\n📦 [bold yellow]{len(nms)} node_modules huérfanos encontrados:[/]")
         for n in nms:
             console.print(f"  · {n['project_name']} ({n['age_str']}) — [bold]{format_size(n['size_bytes'])}[/]")
-            ans = input("    ¿Eliminar node_modules? (s/N): ").strip().lower()
+            ans = console.input("    ¿Eliminar node_modules? (s/N): ").strip().lower()
             if ans == "s":
                 try:
                     if not dry_run:
@@ -665,7 +665,7 @@ def interactive_apps_cleanup(data: Dict[str, Any], console, dry_run: bool = Fals
         for r in residues[:10]:
             console.print(f"  · {r['name']} ({r['age_str']}) — [bold]{format_size(r['size_bytes'])}[/]")
             console.print(f"    [dim]{r['path']}[/]")
-            ans = input("    ¿Eliminar? (s/N): ").strip().lower()
+            ans = console.input("    ¿Eliminar? (s/N): ").strip().lower()
             if ans == "s":
                 try:
                     if not dry_run:
