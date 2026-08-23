@@ -35,16 +35,15 @@ VERSION = "3.0.0"
 # force_terminal=True evita el renderer legado de Windows que no soporta Unicode
 console = Console(force_terminal=True, emoji=True)
 
-# Banner generado con estilo doom — lee correctamente "SysBroom"
+# Banner estilo "Gemini CLI" (bloques sólidos)
 BANNER_LINES = [
-    r" _____           ____                           ",
-    r"/  ___|          | ___ \                         ",
-    r"\ `--. _   _ ___ | |_/ /_ __ ___   ___  _ __ ___",
-    r" `--. \ | | / __|| ___ \ '__/ _ \ / _ \| '_ ` _ \\",
-    r"/\__/ / |_| \__ \| |_/ / | | (_) | (_) | | | | | |",
-    r"\____/ \__, |___/\____/|_|  \___/ \___/|_| |_| |_|",
-    r"        __/ |    Sistema de Limpieza Inteligente   ",
-    r"       |___/                                       ",
+    r"██        ██████  ██    ██  ██████  ████████  ████████   ███████   ███████  ██     ██ ",
+    r" ██      ██    ██  ██  ██  ██    ██ ██     ██ ██     ██ ██     ██ ██     ██ ███   ███ ",
+    r"  ██     ██         ████   ██       ██     ██ ██     ██ ██     ██ ██     ██ ████ ████ ",
+    r"   ██     ██████     ██     ██████  ████████  ████████  ██     ██ ██     ██ ██ ███ ██ ",
+    r"  ██           ██    ██          ██ ██     ██ ██   ██   ██     ██ ██     ██ ██     ██ ",
+    r" ██      ██    ██    ██    ██    ██ ██     ██ ██    ██  ██     ██ ██     ██ ██     ██ ",
+    r"██        ██████     ██     ██████  ████████  ██     ██  ███████   ███████  ██     ██ "
 ]
 
 def is_admin():
@@ -53,20 +52,27 @@ def is_admin():
     except Exception:
         return False
 
+from rich.text import Text
+
 def banner():
-    # Degradado: líneas superiores más brillantes → inferiores más suaves
-    colors = [
-        "bold cyan", "bold cyan", "cyan",
-        "cyan", "bright_blue", "bright_blue",
-        "dim cyan", "dim",
-    ]
     console.print()
-    for i, line in enumerate(BANNER_LINES):
-        color = colors[i] if i < len(colors) else "dim"
-        console.print(f"  [{color}]{line}[/]")
+    # Degradado horizontal: Azul (#3A8BFF) -> Rosa (#FF55A1)
+    start_rgb = (58, 139, 255)
+    end_rgb = (255, 85, 161)
+    max_len = max(len(l) for l in BANNER_LINES)
+    
+    for line in BANNER_LINES:
+        t = Text()
+        for i, char in enumerate(line):
+            ratio = i / max_len if max_len > 0 else 0
+            r = int(start_rgb[0] + (end_rgb[0] - start_rgb[0]) * ratio)
+            g = int(start_rgb[1] + (end_rgb[1] - start_rgb[1]) * ratio)
+            b = int(start_rgb[2] + (end_rgb[2] - start_rgb[2]) * ratio)
+            t.append(char, style=f"rgb({r},{g},{b})")
+        console.print(t)
+        
     console.print(
-        f"\n  [bold white]v{VERSION}[/]  "
-        f"[dim]{datetime.now().strftime('%d/%m/%Y %H:%M')}[/dim]\n"
+        f"\n  [dim]v{VERSION} | {datetime.now().strftime('%d/%m/%Y %H:%M')}[/dim]\n"
     )
     if not is_admin():
         console.print(
