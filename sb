@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+# sb — SysBroom launcher for Git Bash / Unix-style shells
+# Usage: ./sb [command] or add this folder to PATH
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PYTHON="python"
+
+# Detect python3 if python is not available
+if ! command -v python &> /dev/null; then
+    PYTHON="python3"
+fi
+
+CMD="${1:-}"
+shift 2>/dev/null
+
+case "${CMD,,}" in
+    ""|"run")          "$PYTHON" "$SCRIPT_DIR/sysbroom.py" ;;
+    "scan"|"s"|"check") "$PYTHON" "$SCRIPT_DIR/sysbroom.py" --scan-only ;;
+    "clean"|"c"|"auto") "$PYTHON" "$SCRIPT_DIR/sysbroom.py" --auto ;;
+    "dry"|"sim"|"dryrun"|"simulate") "$PYTHON" "$SCRIPT_DIR/sysbroom.py" --dry-run ;;
+    "ai"|"a"|"ia")     "$PYTHON" "$SCRIPT_DIR/sysbroom.py" --ai ;;
+    "apps"|"ap"|"app") "$PYTHON" "$SCRIPT_DIR/sysbroom.py" --apps ;;
+    "docker"|"dk"|"d") "$PYTHON" "$SCRIPT_DIR/sysbroom.py" --docker ;;
+    "wsl"|"w")         "$PYTHON" "$SCRIPT_DIR/sysbroom.py" --wsl ;;
+    "proc"|"p"|"ports"|"kill") "$PYTHON" "$SCRIPT_DIR/sysbroom.py" --processes ;;
+    "sched"|"schedule") "$PYTHON" "$SCRIPT_DIR/sysbroom.py" --schedule ;;
+    "unsched")         "$PYTHON" "$SCRIPT_DIR/sysbroom.py" --unschedule ;;
+    "status"|"st")     "$PYTHON" "$SCRIPT_DIR/sysbroom.py" --status ;;
+    "history"|"log")   "$PYTHON" "$SCRIPT_DIR/sysbroom.py" --history ;;
+    "report"|"last")   "$PYTHON" "$SCRIPT_DIR/sysbroom.py" --report ;;
+    "version"|"v")     "$PYTHON" "$SCRIPT_DIR/sysbroom.py" --version ;;
+    "aliases")
+        echo ""
+        echo "  +==========================+===========+==============================+"
+        echo "  |  Alias corto             |  Comando  |  Descripcion                 |"
+        echo "  +==========================+===========+==============================+"
+        echo "  |  sb s                    |  sb scan  |  Diagnostico completo        |"
+        echo "  |  sb c                    |  sb clean |  Limpieza automatica         |"
+        echo "  |  sb sim                  |  sb dry   |  Simulacion (dry-run)        |"
+        echo "  |  sb a                    |  sb ai    |  Solo herramientas de IA     |"
+        echo "  |  sb ap                   |  sb apps  |  Solo apps y residuos        |"
+        echo "  |  sb d                    |  sb docker|  Solo Docker                 |"
+        echo "  |  sb w                    |  sb wsl   |  Solo WSL                    |"
+        echo "  |  sb p                    |  sb proc  |  Solo procesos y puertos     |"
+        echo "  |  sb st                   |  sb status|  Estado del scheduler        |"
+        echo "  |  sb h / sb ?             |  sb help  |  Menu de ayuda               |"
+        echo "  +==========================+===========+==============================+"
+        echo "  |  TIP: Ctrl+C detiene cualquier proceso en ejecucion                |"
+        echo "  +====================================================================+"
+        echo ""
+        ;;
+    "help"|"h"|"?"|"--help")
+        echo ""
+        echo "  +======================================================================+"
+        echo "  |  SysBroom v3.0 -- Suite de Limpieza Inteligente (Git Bash)          |"
+        echo "  +======================================================================+"
+        echo "  |  ESCANEO Y LIMPIEZA                                                  |"
+        echo "  |   ./sb              Asistente interactivo por fases                  |"
+        echo "  |   ./sb scan  [s]    Diagnostico completo (Windows+IA+Apps)           |"
+        echo "  |   ./sb clean [c]    Limpieza automatica segun perfil                 |"
+        echo "  |   ./sb dry   [sim]  Simular sin borrar nada (dry-run)                |"
+        echo "  +----------------------------------------------------------------------+"
+        echo "  |  MODULOS DEDICADOS                                                   |"
+        echo "  |   ./sb ai    [a]    IA: Claude, Cursor, Ollama, HuggingFace, AGY... |"
+        echo "  |   ./sb apps  [ap]   Apps: residuos, extensiones, venvs              |"
+        echo "  |   ./sb docker[d]    Docker: imagenes, contenedores, volumenes       |"
+        echo "  |   ./sb wsl   [w]    WSL: por distro, compactacion VHDX              |"
+        echo "  |   ./sb proc  [p]    Procesos: zombies, CPU, RAM, puertos            |"
+        echo "  +----------------------------------------------------------------------+"
+        echo "  |  TIP: Ctrl+C detiene cualquier proceso en ejecucion                 |"
+        echo "  +======================================================================+"
+        echo ""
+        ;;
+    *)
+        echo "[SysBroom] Comando no reconocido: '${CMD}'  ->  escribe: ./sb help"
+        ;;
+esac

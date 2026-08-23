@@ -93,6 +93,32 @@ def hdr(n, name, desc):
     console.print()
 
 
+def _tip_controls():
+    """Muestra un recordatorio de atajos de teclado para usuarios no experimentados."""
+    console.print(Panel(
+        "  [bold white]Atajos de teclado:[/]\n"
+        "  [bold cyan]Ctrl+C[/] → Detener/cancelar el proceso actual en cualquier momento\n"
+        "  [bold cyan]Q + ENTER[/] → Salir del menú de selección\n"
+        "  [bold cyan]ENTER[/] → Confirmar selección",
+        title="[dim]ℹ Controles[/]",
+        border_style="dim", padding=(0, 2)
+    ))
+    console.print()
+
+
+def _warn_no_changes():
+    """Avisa al usuario que no haga cambios al sistema mientras corre el escaneo."""
+    scan_time = datetime.now().strftime("%H:%M:%S")
+    console.print(Panel(
+        f"  [bold yellow]⚠ No instales, desinstales ni borres archivos[/]\n"
+        f"  [dim]mientras SysBroom está en ejecución. Los cambios hechos\n"
+        f"  después del escaneo ([bold]{scan_time}[/]) no serán detectados\n"
+        f"  y el análisis puede quedar desactualizado.[/dim]",
+        border_style="yellow", padding=(0, 2)
+    ))
+    console.print()
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Modos de ejecución
 # ─────────────────────────────────────────────────────────────────────────────
@@ -100,13 +126,25 @@ def hdr(n, name, desc):
 def run_scan_only(dry_run: bool = False):
     """Diagnóstico completo: Windows + Docker + WSL + Procesos + IA + Apps."""
     banner()
-    hdr(1, "ESCANEO COMPLETO", "Analizando disco, archivos, docker, wsl, procesos, IA y apps...")
+    _tip_controls()
+    _warn_no_changes()
+    hdr(1, "ESCANEO COMPLETO", "Analizando Windows, Docker, WSL, IA, apps y procesos...")
+
+    # ── Escaneo base Windows ──────────────────────────────────────────────────
     scan = phase1_scan.scan_all(console=console)
+
+    # ── Inyectar IA y Apps al scan para análisis unificado ────────────────────
+    console.log("[dim]Escaneando herramientas IA...[/dim]")
+    scan["ai"] = ai_scan_all(console=None)
+
+    console.log("[dim]Escaneando aplicaciones y residuos...[/dim]")
+    scan["apps"] = apps_scan_all(console=None)
+
     analysis = phase2_analyze.analyze(scan)
 
     # ── Tabla de categorías detectadas ────────────────────────────────────────
     table = Table(
-        title="📂 [bold white]Archivos y Sistema[/]",
+        title="📂 [bold white]Diagnóstico Completo del Sistema[/]",
         box=box.ROUNDED, border_style="cyan",
         header_style="bold cyan", min_width=108
     )
@@ -116,11 +154,11 @@ def run_scan_only(dry_run: bool = False):
     table.add_column("Prioridad", width=9,       justify="center")
     table.add_column("¿Por qué borrar?",         min_width=30, style="dim")
 
+    pri_colors = {"ALTA": "bold red", "MEDIA": "yellow", "BAJA": "green"}
+    pri_icons  = {"ALTA": "🔴", "MEDIA": "🟡", "BAJA": "🟢"}
     for cat in analysis["categories"]:
         sz  = cat.get("size_bytes", 0)
         pri = cat.get("priority", "BAJA")
-        pri_colors = {"ALTA": "bold red", "MEDIA": "yellow", "BAJA": "green"}
-        pri_icons  = {"ALTA": "🔴", "MEDIA": "🟡", "BAJA": "🟢"}
         sc = "bold red" if sz > 500*1024**2 else "yellow" if sz > 50*1024**2 else "white"
         table.add_row(
             cat.get("emoji", ""),
@@ -132,8 +170,9 @@ def run_scan_only(dry_run: bool = False):
 
     console.print(table)
     console.print(
-        f"\n  💾 Total recuperable estimado: "
+        f"\n  💾 [bold]Total recuperable estimado:[/] "
         f"[bold cyan]{format_size(analysis['total_recoverable_bytes'])}[/]\n"
+        f"  [dim]Ejecuta [bold]sb[/bold] o [bold]sb dry[/bold] para proceder con la limpieza.[/dim]\n"
     )
 
     # ── Procesos ──────────────────────────────────────────────────────────────
@@ -183,6 +222,9 @@ def run_wsl_only(dry_run: bool = False):
 def run_pipeline(auto: bool = False, dry_run: bool = False):
     """Pipeline completo: Windows + IA + Apps + Docker + WSL."""
     banner()
+    if not auto:
+        _tip_controls()
+        _warn_no_changes()
     hdr(1, "ESCANEO", "Detectando elementos limpiables en todo el sistema...")
 
     # Scan Windows base

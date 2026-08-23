@@ -1,3 +1,4 @@
+import os
 from typing import Dict, Any, List
 from rich.console import Console
 from rich.table import Table
@@ -30,6 +31,9 @@ def show_decision_menu(analysis: Dict[str, Any], auto_mode: bool = False) -> Lis
     show_only_high = False
 
     while True:
+        # Limpiar pantalla para redibujar sin repetición
+        os.system("cls" if os.name == "nt" else "clear")
+
         # ── Calcular lista visible ──────────────────────────────────────────
         visible = cats
         if active_filter:
