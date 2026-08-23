@@ -56,18 +56,22 @@ from rich.text import Text
 
 def banner():
     console.print()
-    # Degradado horizontal: Azul (#3A8BFF) -> Rosa (#FF55A1)
-    start_rgb = (58, 139, 255)
-    end_rgb = (255, 85, 161)
+    # Degradado horizontal: Azul oscuro (#0055FF) -> Verde Terminal (#00FF41) predominando el verde
+    start_rgb = (0, 85, 255)    # Azul profundo
+    end_rgb = (0, 255, 65)      # Verde terminal brillante
     max_len = max(len(l) for l in BANNER_LINES)
     
     for line in BANNER_LINES:
         t = Text()
         for i, char in enumerate(line):
             ratio = i / max_len if max_len > 0 else 0
-            r = int(start_rgb[0] + (end_rgb[0] - start_rgb[0]) * ratio)
-            g = int(start_rgb[1] + (end_rgb[1] - start_rgb[1]) * ratio)
-            b = int(start_rgb[2] + (end_rgb[2] - start_rgb[2]) * ratio)
+            # Aceleramos un poco la transición para que predomine el verde
+            # Usando una curva simple: ratio = ratio ** 0.7
+            curved_ratio = ratio ** 0.7
+            
+            r = int(start_rgb[0] + (end_rgb[0] - start_rgb[0]) * curved_ratio)
+            g = int(start_rgb[1] + (end_rgb[1] - start_rgb[1]) * curved_ratio)
+            b = int(start_rgb[2] + (end_rgb[2] - start_rgb[2]) * curved_ratio)
             t.append(char, style=f"rgb({r},{g},{b})")
         console.print(t)
         
