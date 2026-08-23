@@ -72,6 +72,11 @@ case "${CMD,,}" in
         echo ""
         ;;
     *)
-        echo "[SysBroom] Comando no reconocido: '${CMD}'  ->  escribe: ./sb help"
+        echo ""
+        echo "  +======================================================================+"
+        echo "  |  [SysBroom] Comando no reconocido: '${CMD}'"
+        echo "  |  Escribe  ./sb help  para ver todos los comandos disponibles.       |"
+        echo "  +======================================================================+"
+        echo ""
         ;;
 esac

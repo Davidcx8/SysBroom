@@ -174,6 +174,11 @@ def show_decision_menu(analysis: Dict[str, Any], auto_mode: bool = False) -> Lis
             else:
                 c["enabled"] = not c.get("enabled", False)
 
+        else:
+            console.print(f"\n  [bold red]Opción no reconocida:[/] '{raw}'")
+            console.print("  [dim]Escribe el número de la categoría ([bold white]1-{len(visible)}[/]), [bold white]A[/] (todo), [bold white]N[/] (nada), [bold white]ENTER[/] (confirmar), o [bold white]Q[/] (salir).[/dim]")
+            console.input("  ENTER para continuar...")
+
     return cats
 
 

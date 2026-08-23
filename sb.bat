@@ -65,7 +65,12 @@ IF /I "%~1"=="last"     ( python "%SCRIPT%" --report               & GOTO :END )
 
 IF /I "%~1"=="version"  ( python "%SCRIPT%" --version              & GOTO :END )
 
-echo [SysBroom] Comando no reconocido: "%~1"  ->  escribe  sb help
+echo.
+echo  +======================================================================+
+echo  ^|  [SysBroom] Comando no reconocido: "%~1"
+echo  ^|  Escribe  sb help  para ver todos los comandos disponibles.        ^|
+echo  +======================================================================+
+echo.
 GOTO :END
 
 :HELP

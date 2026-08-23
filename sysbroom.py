@@ -298,8 +298,15 @@ def show_last_report():
 # Entry point
 # ─────────────────────────────────────────────────────────────────────────────
 
+class SysBroomParser(argparse.ArgumentParser):
+    def error(self, message):
+        console.print(f"\n  [bold red]Error:[/] {message}")
+        console.print("  [dim]Ejecuta [bold cyan]sb help[/] para ver todos los comandos disponibles.[/dim]\n")
+        sys.exit(2)
+
+
 def main():
-    p = argparse.ArgumentParser(
+    p = SysBroomParser(
         prog="sysbroom",
         description=f"SysBroom v{VERSION} — Sistema de Limpieza Inteligente"
     )
