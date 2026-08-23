@@ -9,6 +9,7 @@ IF /I "%~1"=="help"    GOTO :HELP
 IF /I "%~1"=="h"       GOTO :HELP
 IF /I "%~1"=="?"       GOTO :HELP
 IF /I "%~1"=="aliases" GOTO :ALIASES
+IF /I "%~1"=="al"      GOTO :ALIASES
 
 REM -- Escaneo ------------------------------------------------------------------
 IF /I "%~1"=="scan"     ( python "%SCRIPT%" --scan-only            & GOTO :END )
@@ -50,20 +51,29 @@ IF /I "%~1"=="p"        ( python "%SCRIPT%" --processes            & GOTO :END )
 REM -- Programacion -------------------------------------------------------------
 IF /I "%~1"=="sched"    ( python "%SCRIPT%" --schedule             & GOTO :END )
 IF /I "%~1"=="schedule" ( python "%SCRIPT%" --schedule             & GOTO :END )
+IF /I "%~1"=="sch"      ( python "%SCRIPT%" --schedule             & GOTO :END )
+IF /I "%~1"=="sc"       ( python "%SCRIPT%" --schedule             & GOTO :END )
 
 IF /I "%~1"=="status"   ( python "%SCRIPT%" --status               & GOTO :END )
 IF /I "%~1"=="st"       ( python "%SCRIPT%" --status               & GOTO :END )
 
 IF /I "%~1"=="unsched"  ( python "%SCRIPT%" --unschedule           & GOTO :END )
+IF /I "%~1"=="un"       ( python "%SCRIPT%" --unschedule           & GOTO :END )
+IF /I "%~1"=="us"       ( python "%SCRIPT%" --unschedule           & GOTO :END )
 
 REM -- Historial y reportes -----------------------------------------------------
 IF /I "%~1"=="history"  ( python "%SCRIPT%" --history              & GOTO :END )
 IF /I "%~1"=="log"      ( python "%SCRIPT%" --history              & GOTO :END )
+IF /I "%~1"=="hi"       ( python "%SCRIPT%" --history              & GOTO :END )
+IF /I "%~1"=="hs"       ( python "%SCRIPT%" --history              & GOTO :END )
 
 IF /I "%~1"=="report"   ( python "%SCRIPT%" --report               & GOTO :END )
 IF /I "%~1"=="last"     ( python "%SCRIPT%" --report               & GOTO :END )
+IF /I "%~1"=="r"        ( python "%SCRIPT%" --report               & GOTO :END )
+IF /I "%~1"=="rp"       ( python "%SCRIPT%" --report               & GOTO :END )
 
 IF /I "%~1"=="version"  ( python "%SCRIPT%" --version              & GOTO :END )
+IF /I "%~1"=="v"        ( python "%SCRIPT%" --version              & GOTO :END )
 
 echo.
 echo  +======================================================================+
@@ -92,15 +102,15 @@ echo  ^|   sb wsl   [w]    WSL: por distro y componente, compactacion VHDX    ^|
 echo  ^|   sb proc  [p]    Procesos: zombies, CPU, RAM, puertos               ^|
 echo  +----------------------------------------------------------------------+
 echo  ^|  PROGRAMACION AUTOMATICA                                             ^|
-echo  ^|   sb sched        Configurar dia, hora y categorias                  ^|
+echo  ^|   sb sched  [sch] Configurar dia, hora y categorias                  ^|
 echo  ^|   sb status [st]  Estado y proxima ejecucion                         ^|
-echo  ^|   sb unsched      Eliminar tarea de Windows                          ^|
+echo  ^|   sb unsched[un]  Eliminar tarea de Windows                          ^|
 echo  +----------------------------------------------------------------------+
 echo  ^|  HISTORIAL Y REPORTES                                                ^|
-echo  ^|   sb history      Ultimas 10 limpiezas                               ^|
-echo  ^|   sb report       Ver el ultimo reporte                              ^|
-echo  ^|   sb aliases      Ver tabla de alias cortos                          ^|
-echo  ^|   sb help         Este menu                                          ^|
+echo  ^|   sb history[hi]  Ultimas 10 limpiezas                               ^|
+echo  ^|   sb report [r]   Ver el ultimo reporte                              ^|
+echo  ^|   sb aliases[al]  Ver tabla de alias cortos                          ^|
+echo  ^|   sb help   [h]   Este menu                                          ^|
 echo  +======================================================================+
 echo  ^|  TIP: Ctrl+C detiene cualquier proceso en ejecucion                  ^|
 echo  +======================================================================+
@@ -114,14 +124,19 @@ echo  ^|  Alias corto             ^|  Comando  ^|  Descripcion                  
 echo  +==========================+===========+================================+
 echo  ^|  sb s                    ^|  sb scan  ^|  Diagnostico completo           ^|
 echo  ^|  sb c                    ^|  sb clean ^|  Limpieza automatica            ^|
-echo  ^|  sb sim                  ^|  sb dry   ^|  Simulacion (dry-run)           ^|
-echo  ^|  sb a                    ^|  sb ai    ^|  Solo herramientas de IA        ^|
-echo  ^|  sb ap                   ^|  sb apps  ^|  Solo apps y residuos           ^|
-echo  ^|  sb d                    ^|  sb docker^|  Solo Docker                    ^|
+echo  ^|  sb sim / dry            ^|  sb dry   ^|  Simulacion (dry-run)           ^|
+echo  ^|  sb a / ia               ^|  sb ai    ^|  Solo herramientas de IA        ^|
+echo  ^|  sb ap / app             ^|  sb apps  ^|  Solo apps y residuos           ^|
+echo  ^|  sb d / dk               ^|  sb docker^|  Solo Docker                    ^|
 echo  ^|  sb w                    ^|  sb wsl   ^|  Solo WSL                       ^|
-echo  ^|  sb p                    ^|  sb proc  ^|  Solo procesos y puertos        ^|
+echo  ^|  sb p / ports            ^|  sb proc  ^|  Solo procesos y puertos        ^|
+echo  ^|  sb sch                  ^|  sb sched ^|  Configurar programacion        ^|
 echo  ^|  sb st                   ^|  sb status^|  Estado del scheduler           ^|
-echo  ^|  sb h / sb ?             ^|  sb help  ^|  Menu de ayuda                  ^|
+echo  ^|  sb un                   ^|  sb unsched^| Eliminar tarea programada     ^|
+echo  ^|  sb hi / log             ^|  sb history^| Ultimas 10 limpiezas          ^|
+echo  ^|  sb r / last             ^|  sb report^|  Ver el ultimo reporte          ^|
+echo  ^|  sb al                   ^|  sb aliases^| Ver tabla de alias cortos     ^|
+echo  ^|  sb h / ?                ^|  sb help  ^|  Menu de ayuda                  ^|
 echo  +==========================+===========+================================+
 echo  ^|  TIP: Ctrl+C detiene cualquier proceso en ejecucion                  ^|
 echo  +======================================================================+

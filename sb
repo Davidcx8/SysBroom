@@ -23,27 +23,32 @@ case "${CMD,,}" in
     "docker"|"dk"|"d") "$PYTHON" "$SCRIPT_DIR/sysbroom.py" --docker ;;
     "wsl"|"w")         "$PYTHON" "$SCRIPT_DIR/sysbroom.py" --wsl ;;
     "proc"|"p"|"ports"|"kill") "$PYTHON" "$SCRIPT_DIR/sysbroom.py" --processes ;;
-    "sched"|"schedule") "$PYTHON" "$SCRIPT_DIR/sysbroom.py" --schedule ;;
-    "unsched")         "$PYTHON" "$SCRIPT_DIR/sysbroom.py" --unschedule ;;
+    "sched"|"schedule"|"sch"|"sc") "$PYTHON" "$SCRIPT_DIR/sysbroom.py" --schedule ;;
+    "unsched"|"un"|"us") "$PYTHON" "$SCRIPT_DIR/sysbroom.py" --unschedule ;;
     "status"|"st")     "$PYTHON" "$SCRIPT_DIR/sysbroom.py" --status ;;
-    "history"|"log")   "$PYTHON" "$SCRIPT_DIR/sysbroom.py" --history ;;
-    "report"|"last")   "$PYTHON" "$SCRIPT_DIR/sysbroom.py" --report ;;
+    "history"|"log"|"hi"|"hs") "$PYTHON" "$SCRIPT_DIR/sysbroom.py" --history ;;
+    "report"|"last"|"r"|"rp") "$PYTHON" "$SCRIPT_DIR/sysbroom.py" --report ;;
     "version"|"v")     "$PYTHON" "$SCRIPT_DIR/sysbroom.py" --version ;;
-    "aliases")
+    "aliases"|"al")
         echo ""
         echo "  +==========================+===========+==============================+"
         echo "  |  Alias corto             |  Comando  |  Descripcion                 |"
         echo "  +==========================+===========+==============================+"
         echo "  |  sb s                    |  sb scan  |  Diagnostico completo        |"
         echo "  |  sb c                    |  sb clean |  Limpieza automatica         |"
-        echo "  |  sb sim                  |  sb dry   |  Simulacion (dry-run)        |"
-        echo "  |  sb a                    |  sb ai    |  Solo herramientas de IA     |"
-        echo "  |  sb ap                   |  sb apps  |  Solo apps y residuos        |"
-        echo "  |  sb d                    |  sb docker|  Solo Docker                 |"
+        echo "  |  sb sim / dry            |  sb dry   |  Simulacion (dry-run)        |"
+        echo "  |  sb a / ia               |  sb ai    |  Solo herramientas de IA     |"
+        echo "  |  sb ap / app             |  sb apps  |  Solo apps y residuos        |"
+        echo "  |  sb d / dk               |  sb docker|  Solo Docker                 |"
         echo "  |  sb w                    |  sb wsl   |  Solo WSL                    |"
-        echo "  |  sb p                    |  sb proc  |  Solo procesos y puertos     |"
+        echo "  |  sb p / ports            |  sb proc  |  Solo procesos y puertos     |"
+        echo "  |  sb sch                  |  sb sched |  Configurar programacion     |"
         echo "  |  sb st                   |  sb status|  Estado del scheduler        |"
-        echo "  |  sb h / sb ?             |  sb help  |  Menu de ayuda               |"
+        echo "  |  sb un                   |  sb unsched|  Eliminar tarea programada  |"
+        echo "  |  sb hi / log             |  sb history|  Ultimas 10 limpiezas       |"
+        echo "  |  sb r / last             |  sb report |  Ver el ultimo reporte      |"
+        echo "  |  sb al                   |  sb aliases|  Ver tabla de alias cortos  |"
+        echo "  |  sb h / ?                |  sb help  |  Menu de ayuda               |"
         echo "  +==========================+===========+==============================+"
         echo "  |  TIP: Ctrl+C detiene cualquier proceso en ejecucion                |"
         echo "  +====================================================================+"
@@ -67,6 +72,17 @@ case "${CMD,,}" in
         echo "  |   ./sb wsl   [w]    WSL: por distro, compactacion VHDX              |"
         echo "  |   ./sb proc  [p]    Procesos: zombies, CPU, RAM, puertos            |"
         echo "  +----------------------------------------------------------------------+"
+        echo "  |  PROGRAMACION AUTOMATICA                                             |"
+        echo "  |   ./sb sched [sch]  Configurar dia, hora y categorias               |"
+        echo "  |   ./sb status[st]   Estado y proxima ejecucion                      |"
+        echo "  |   ./sb unsched[un]  Eliminar tarea de Windows                       |"
+        echo "  +----------------------------------------------------------------------+"
+        echo "  |  HISTORIAL Y REPORTES                                                |"
+        echo "  |   ./sb history[hi]  Ultimas 10 limpiezas                            |"
+        echo "  |   ./sb report [r]   Ver el ultimo reporte                           |"
+        echo "  |   ./sb aliases[al]  Ver tabla de alias cortos                       |"
+        echo "  |   ./sb help   [h]   Este menu                                       |"
+        echo "  +======================================================================+"
         echo "  |  TIP: Ctrl+C detiene cualquier proceso en ejecucion                 |"
         echo "  +======================================================================+"
         echo ""
